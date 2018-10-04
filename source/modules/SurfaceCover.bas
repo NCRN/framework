@@ -277,9 +277,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
         
-    Dim Template As String
+    Dim template As String
     
-    Template = "i_surface_cover"
+    template = "i_surface_cover"
     
     Dim Params(0 To 5) As Variant
     
@@ -290,11 +290,11 @@ On Error GoTo Err_Handler
         Params(3) = .PercentCover
         
         If IsUpdate Then
-            Template = "u_surface_cover"
+            template = "u_surface_cover"
             'Params(4) = .ID
         End If
         
-        .ID = SetRecord(Template, Params)
+        .ID = SetRecord(template, Params)
     End With
     
     'no RecordAction for invasives --> if added later see Big Rivers
@@ -326,9 +326,9 @@ End Sub
 Public Sub UpdateSurfaceCover()
 On Error GoTo Err_Handler
         
-    Dim Template As String
+    Dim template As String
     
-    Template = "u_surfacecover_by_id"
+    template = "u_surfacecover_by_id"
     
     Dim Params(0 To 2) As Variant
     
@@ -337,7 +337,7 @@ On Error GoTo Err_Handler
         Params(1) = .SurfaceCoverID
         Params(2) = .PercentCover
                 
-        .ID = SetRecord(Template, Params)
+        .ID = SetRecord(template, Params)
     End With
     
     'no RecordAction for invasives --> if added later see Big Rivers

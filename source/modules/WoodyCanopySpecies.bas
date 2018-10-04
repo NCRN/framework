@@ -463,9 +463,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim Template As String
+    Dim template As String
     
-    Template = "i_cover_species"
+    template = "i_cover_species"
     
     Dim Params(0 To 5) As Variant
 
@@ -476,11 +476,11 @@ On Error GoTo Err_Handler
         Params(3) = .PercentCover
         
         If IsUpdate Then
-            Template = "u_cover_species"
+            template = "u_cover_species"
             Params(4) = .ID
         End If
         
-        .ID = SetRecord(Template, Params)
+        .ID = SetRecord(template, Params)
     End With
 
 Exit_Handler:

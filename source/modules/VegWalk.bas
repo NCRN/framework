@@ -219,9 +219,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim Template As String
+    Dim template As String
     
-    Template = "i_vegwalk"
+    template = "i_vegwalk"
     
     Dim Params(0 To 10) As Variant
     
@@ -237,11 +237,11 @@ On Error GoTo Err_Handler
 '        params(8) = .LastModifiedByID
         
         If IsUpdate Then
-            Template = "u_vegwalk"
+            template = "u_vegwalk"
             Params(9) = .ID
         End If
         
-        .ID = SetRecord(Template, Params)
+        .ID = SetRecord(template, Params)
     End With
 
 Exit_Handler:

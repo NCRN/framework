@@ -4,7 +4,7 @@ Option Explicit
 ' =================================
 ' MODULE:       mod_App_Data
 ' Level:        Application module
-' Version:      1.60
+' Version:      1.61
 ' Description:  data functions & procedures specific to this application
 '
 ' Source/date:  Bonnie Campbell, 2/9/2015
@@ -99,6 +99,7 @@ Option Explicit
 '                                        update i_photo case (SetRecord), add GetPhotoTypes
 '               BLC, 1/16/2018  - 1.59 - add i_event_photo case (SetRecord), update i_photo (UpsertRecord) case
 '               BLC, 1/17/2018  - 1.60 - updated i_photo_event, i_photo, u_photo cases
+'               BLC, 1/24/2018  - 1.61 - added s_photo_year_by_site (GetRecords)
 ' =================================
 
 ' =================================
@@ -267,6 +268,155 @@ Err_Handler:
     End Select
     Resume Exit_Handler
 End Sub
+
+' ---------------------------------
+' SUB:     GetDictionary
+' Description:  Retrieves a dictionary object based on a template results
+' Parameters:   template - SQL template to retrieve data (string)
+'               keys - array of keys to retrieve (array)
+'               dictname - name of resulting dictionary object (string)
+' Returns:      -
+' Assumptions:  -
+' Throws:       none
+' References:   tsys_Db_Templates, Microsoft Scripting Runtime (dictionary object)
+' Source/date:  Bonnie Campbell, January 2018
+' Revisions:    BLC, 1/24/2018 - initial version
+' ---------------------------------
+Public Function GetDictionary(template As String, keys As Variant, _
+                                dictname As String) As Scripting.Dictionary
+
+    Dim db As DAO.Database
+    Dim rs As DAO.Recordset
+    Dim Key As String
+    Dim Value As Variant
+    Dim i As Integer
+    
+    If IsArray(keys) Then
+        i = keys.Count
+    Else
+        GoTo Exit_Handler
+    End If
+    
+    Set db = CurrDb
+    Set rs = GetRecords(template)
+    
+    'handle no records
+    If rs.EOF Then
+        MsgBox "Sorry, no records were found in this database version.", vbExclamation, _
+            "No Records Found"
+        DoCmd.CancelEvent
+        GoTo Exit_Handler
+    End If
+    
+    'prepare dictionary
+'    Dim dictNew As New Scripting.Dictionary
+'    Dim ary(1 To X) As String
+'    Dim i As Integer
+'
+'    'prepare the dictionary key array
+''    ary(1) = "Context"
+''    ary(2) = "TemplateName"
+''    ary(3) = "Template" 'Template
+''    ary(4) = "Params"
+''    ary(5) = "Syntax"
+''    ary(6) = "ID"
+''    ary(7) = "FieldCheck"
+''    ary(8) = "FieldOK"
+''    ary(9) = "Dependencies"
+''    ary(10) = "DataScope"
+''    ary(11) = "Version"
+'    ary(1) = "ID"
+'    ary(2) = "Label"
+'    ary(3) = "Summary"
+    
+    'prepare array of dictionaries
+    Dim dictNew As Scripting.Dictionary
+    Dim dict As Scripting.Dictionary
+    Set dictNew = New Scripting.Dictionary
+    
+    rs.MoveLast
+    rs.MoveFirst
+    
+    Do Until rs.EOF
+    
+        'create new dictionary object
+        Set dict = New Scripting.Dictionary
+        
+        'populate the dictionary
+        For i = 1 To UBound(keys)
+            
+            Key = keys(i)
+            
+            Value = Nz(rs.Fields(keys(i)), "")
+            
+            'add key if it isn't already there
+            If Not dict.Exists(Key) Then
+                If IsNull(Value) Then MsgBox Key, vbOKCancel, "is NULL"
+                'Debug.Print Nz(Value, key & "-NULL")
+                dict.Add Key, Value
+            End If
+        
+        Next
+        
+        'add item dictionary to overall dictionary of items
+        dictNew.Add dict(dictname), dict
+        
+'        Debug.Print dict("TemplateName") & " " & dict.Item("ID")
+        rs.MoveNext
+    Loop
+    
+    'load global AppTemplates As Scripting.Dictionary of Templates
+    'Set g_AppPhotoTypes = Nothing    'clear first
+    
+    Set GetDictionary = dictNew
+    
+Exit_Handler:
+    'cleanup
+    Set rs = Nothing
+    Set dict = Nothing
+    Set dictNew = Nothing
+    Exit Function
+
+Err_Handler:
+    Select Case Err.Number
+      Case 457  'Duplicate Item -- finds more than one w/ same name (improbable)
+        MsgBox "A duplicate item was found." & vbCrLf & vbCrLf & _
+            "When you click 'OK' a query will run to identify the problem PhotoType." & vbCrLf & vbCrLf & _
+            "You can close the query after it runs (save it if you like)." & vbCrLf & vbCrLf & _
+            "Please contact your data manager to resolve this issue." & vbCrLf & vbCrLf & _
+            "Error #" & Err.Number & " - GetDictionary[mod_Db]:" & vbCrLf & _
+            Err.Description, vbExclamation, "Duplicate Item Found! [AppEnum]"
+
+            Dim strErrorSQL As String
+            strErrorSQL = "SELECT Label, Count(Label) AS NumberOfDupes " & _
+                    "FROM AppEnum " & _
+                    "GROUP By Label " & _
+                    "HAVING Count(Label) > 1;"
+
+            Dim qdf As DAO.QueryDef
+            
+            If Not QueryExists("UsysTempQuery") Then
+                Set qdf = CurrDb.CreateQueryDef("UsysTempQuery")
+            Else
+                Set qdf = CurrDb.QueryDefs("UsysTempQuery")
+            End If
+            
+            qdf.SQL = strErrorSQL
+            
+            DoCmd.OpenQuery "USysTempQuery", acViewNormal
+
+            '********** FATAL ERROR ****************
+            'terminate *ALL* VBA code to prevent other popups
+            'Exit Sub
+            Stop
+            
+      Case Else
+        MsgBox "Error #" & Err.Number & ": " & Err.Description, vbCritical, _
+            "Error encountered (#" & Err.Number & " - GetDictionary[mod_Db])"
+    End Select
+    Resume Exit_Handler
+End Function
+
 
 ' =================================
 '   List Methods
@@ -803,25 +953,25 @@ On Error GoTo Err_Handler
 '    DoCmd.RunSQL (strSQL)
 '    DoCmd.SetWarnings True
     
-    Dim Template As String
+    Dim template As String
     
     Select Case Context
         Case "Contact"
-            Template = "u_contact_isactive_flag"
+            template = "u_contact_isactive_flag"
         Case "Site"
-            Template = "u_site_isactive_flag"
+            template = "u_site_isactive_flag"
         Case "ModWentworthScale"
-            Template = "u_mod_wentworth_retireyear"
+            template = "u_mod_wentworth_retireyear"
             
     End Select
     
     Dim Params(0 To 3) As Variant
     
-    Params(0) = Template
+    Params(0) = template
     Params(1) = ID
-    Params(2) = IIf(InStr(Template, "wentworth") > 0, Year(Date), IsActive)
+    Params(2) = IIf(InStr(template, "wentworth") > 0, Year(Date), IsActive)
         
-    SetRecord Template, Params
+    SetRecord template, Params
     
 Exit_Handler:
     Exit Sub
@@ -853,13 +1003,13 @@ End Sub
 Public Sub ToggleSensitive(Context As String, ID As Long, Sensitive As Byte)
 On Error GoTo Err_Handler
     
-    Dim Template As String
+    Dim template As String
     
-    Template = IIf(Sensitive = 1, "i_", "d_")
+    template = IIf(Sensitive = 1, "i_", "d_")
     
-    Template = LCase(Template & "sensitive_" & Context)
+    template = LCase(template & "sensitive_" & Context)
     
-    If Right(Template, 1) <> "s" Then Template = Template & "s"
+    If Right(template, 1) <> "s" Then template = template & "s"
     
 '    Select Case Context
 '        Case "Locations"
@@ -879,11 +1029,11 @@ On Error GoTo Err_Handler
     
     Dim Params(0 To 3) As Variant
     
-    Params(0) = Template
+    Params(0) = template
     Params(1) = ID
     Params(2) = Sensitive
         
-    SetRecord Template, Params
+    SetRecord template, Params
     
 Exit_Handler:
     Exit Sub
@@ -1036,8 +1186,9 @@ End Sub
 '   BLC - 12/12/2017 - add s_usys_temp_photo_list
 '   BLC - 12/13/2017 - add s_access_lvl
 '   BLC - 1/10/2018  - added s_comments, s_tasks
+'   BLC - 1/24/2018  - added s_photo_year_by_site
 ' ---------------------------------
-Public Function GetRecords(Template As String, _
+Public Function GetRecords(template As String, _
                             Optional Params As Variant) As DAO.Recordset
 On Error GoTo Err_Handler
     
@@ -1053,9 +1204,9 @@ On Error GoTo Err_Handler
         With qdf
         
             'check if record exists in site
-            .SQL = GetTemplate(Template)
+            .SQL = GetTemplate(template)
         
-            Select Case Template
+            Select Case template
                                         
         '-----------------------
         '  QC
@@ -1184,6 +1335,10 @@ On Error GoTo Err_Handler
                 
                 Case "s_modal_sediment_size"    'from AppEnum
                     '-- required parameters --
+                
+                Case "s_photo_year_by_site"
+                    '-- required parameters --
+                    .Parameters("sid") = TempVars("SiteID")
                 
                 Case "s_plot_numbers"
                     '-- required parameters --
@@ -1517,7 +1672,7 @@ End Function
 '   BLC - 1/16/2018 - add i_photo_event case
 '   BLC - 1/17/2018 - updated i_photo_event, i_photo, u_photo cases
 ' ---------------------------------
-Public Function SetRecord(Template As String, Params As Variant) As Long
+Public Function SetRecord(template As String, Params As Variant) As Long
 On Error GoTo Err_Handler
     
     Dim db As DAO.Database
@@ -1542,7 +1697,7 @@ On Error GoTo Err_Handler
         With qdf
         
             'check if record exists in site
-            .SQL = GetTemplate(Template)
+            .SQL = GetTemplate(template)
             
             '-------------------
             ' set SQL parameters --> .Parameters("") = params()
@@ -1553,7 +1708,7 @@ On Error GoTo Err_Handler
             '   param(0) --> reserved for record action RefTable (ReferenceType)
             '   last param(x) --> used as record ID for updates
             '-------------------------------------------------------------------------
-            Select Case Template
+            Select Case template
             
         '-----------------------
         '  INSERTS
@@ -2395,7 +2550,7 @@ Err_Handler:
             DoCmd.OpenForm "MsgOverlay", acNormal, , , , acDialog, _
                         "msg" & PARAM_SEPARATOR & "Please check your " & _
                         "values && retry if necessary. " & _
-                        vbCrLf & "[" & Template & " - SetRecord]" & _
+                        vbCrLf & "[" & template & " - SetRecord]" & _
                         "|Type" & PARAM_SEPARATOR & "caution" & _
                         "|Title" & PARAM_SEPARATOR & "Duplicate Record!"
       Case Else
@@ -3116,7 +3271,7 @@ On Error GoTo Err_Handler
             '-------------------
             Case "Template"
                 'Dim tpl As New Template
-                Dim tpl As Template
+                Dim tpl As template
                 
                 With tpl
                     .IsSupported = 1

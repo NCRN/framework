@@ -216,9 +216,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim Template As String
+    Dim template As String
     
-    Template = "i_tagline"
+    template = "i_tagline"
     
     Dim Params(0 To 8) As Variant
 
@@ -232,11 +232,11 @@ On Error GoTo Err_Handler
         Params(6) = .Height
         
         If IsUpdate Then
-            Template = "u_tagline"
+            template = "u_tagline"
             Params(7) = .ID
         End If
         
-        .ID = SetRecord(Template, Params)
+        .ID = SetRecord(template, Params)
     End With
     
 '    'add a record for created by

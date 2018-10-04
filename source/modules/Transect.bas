@@ -234,9 +234,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim Template As String
+    Dim template As String
     
-    Template = "i_Transect"
+    template = "i_Transect"
     
     Dim Params(0 To 5) As Variant
 
@@ -247,11 +247,11 @@ On Error GoTo Err_Handler
         Params(3) = .SpeciesCover
         
         If IsUpdate Then
-            Template = "u_Transect"
+            template = "u_Transect"
             Params(4) = .ID
         End If
         
-        .ID = SetRecord(Template, Params)
+        .ID = SetRecord(template, Params)
     End With
 
 Exit_Handler:
@@ -281,9 +281,9 @@ End Sub
 Public Sub GetSpeciesCover(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim Template As String
+    Dim template As String
     
-    Template = "s_speciescover_by_transect"
+    template = "s_speciescover_by_transect"
     
     With Me
         'x = "SpeciesCover"
@@ -291,7 +291,7 @@ On Error GoTo Err_Handler
         TempVars("Event_ID") = .EventID
         TempVars("Transect_ID") = .transectID
         
-        .SpeciesCover = GetRecords(Template)
+        .SpeciesCover = GetRecords(template)
     End With
 
 Exit_Handler:
@@ -321,9 +321,9 @@ End Sub
 Public Sub GetSurfaceCover(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim Template As String
+    Dim template As String
     
-    Template = "s_surfacecover_by_transect"
+    template = "s_surfacecover_by_transect"
     
     With Me
 '        params(0) = "Transect"
@@ -331,7 +331,7 @@ On Error GoTo Err_Handler
         SetTempVar "EventID", .EventID
         SetTempVar "TransectID", .transectID
         
-        .SurfaceCover = GetRecords(Template)
+        .SurfaceCover = GetRecords(template)
     End With
 
 Exit_Handler:

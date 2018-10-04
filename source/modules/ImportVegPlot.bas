@@ -176,7 +176,7 @@ Public Property Get CsvRows() As String
     Dim output() As String
     ReDim output(mCover.Count - 1)
     Dim i As Long
-    For Each Key In mCover.Keys
+    For Each Key In mCover.keys
         Dim Temp(16) As String
         Temp(0) = this.PlotID
         Temp(1) = this.VisitDate

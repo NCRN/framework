@@ -4,7 +4,7 @@ Option Explicit
 ' =================================
 ' MODULE:       mod_App_Settings
 ' Level:        Application module
-' Version:      1.13
+' Version:      1.15
 ' Description:  Application-wide related values, functions & subroutines
 '
 ' Source/date:  Bonnie Campbell, April 2015
@@ -45,6 +45,8 @@ Option Explicit
 ' --------------------------------------------------------------------
 '               BLC, 11/3/2017 - 1.13 - added g_ModalSedimentSizeIDs
 '               BLC, 11/6/2017 - 1.14 - added APP to identify protocol application
+'               BLC, 10/3/2018 - 1.15 - added APP_SUBSET to distinguish sub-protocols,
+'                                       DB_DISTRIBUTED to identify databases sent to collaborators
 ' =================================
 
 ' ---------------------------------
@@ -56,11 +58,17 @@ Option Explicit
 ' Revisions:    BLC, 6/6/2016 - initial version (NCPN WQ Big Rivers App, App_Templates)
 '               BLC, 11/3/2017 - added g_ModalSedimentSizeIDs
 '               BLC, 11/6/2017 - added APP to identify protocol application
+'               BLC, 10/3/2018 - added APP_SUBSET to distinguish sub-protocols,
+'                                DB_DISTRIBUTED to identify databases sent to collaborators
 ' ---------------------------------
 'Public g_AppTemplates As Scripting.Dictionary     'global dictionary for application templates (if any)
 
 Public APP As String                               'global setting for protocol application
+Public APP_SUBSET As String                        'global setting for protocol subset (grassland, forest, camp)
 
+Public DB_DISTRIBUTED As Boolean                   'global setting for if current db file is passed to collaborators
+                                                   '(if so, DEV_MODE, ADMIN buttons should be hidden)
+                                                   
 Public gSubReportCount As Integer                  'global counter for subreports
 Public g_ModalSedimentSizeIDs As Scripting.Dictionary 'global dictionary for modal sediment size ID #s
                                                      '(from AppEnum)

@@ -239,9 +239,9 @@ End Sub
 Public Function GetIDFromColName() As Long
 On Error GoTo Err_Handler
     
-    Dim Template As String
+    Dim template As String
     
-    Template = "s_surface_by_colname"
+    template = "s_surface_by_colname"
     
     Dim Params(0 To 1) As Variant
 
@@ -253,7 +253,7 @@ On Error GoTo Err_Handler
         Params(0) = "Surface"
         Params(1) = .OrigColumnName
                 
-              .ID = GetRecords(Template).Fields(0)
+              .ID = GetRecords(template).Fields(0)
 '        .ID = 0
     End With
 
@@ -284,9 +284,9 @@ End Function
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim Template As String
+    Dim template As String
     
-    Template = "i_surface"
+    template = "i_surface"
     
     Dim Params(0 To 5) As Variant
 
@@ -297,11 +297,11 @@ On Error GoTo Err_Handler
         Params(3) = .OrigColumnName
         
         If IsUpdate Then
-            Template = "u_surface"
+            template = "u_surface"
             Params(4) = .ID
         End If
         
-        .ID = SetRecord(Template, Params)
+        .ID = SetRecord(template, Params)
     End With
 
 Exit_Handler:

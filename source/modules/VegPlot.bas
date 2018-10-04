@@ -468,9 +468,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim Template As String
+    Dim template As String
     
-    Template = "i_vegplot"
+    template = "i_vegplot"
     
     Dim Params(0 To 28) As Variant
 
@@ -504,11 +504,11 @@ On Error GoTo Err_Handler
         Params(26) = .BeaverBrowse
         
         If IsUpdate Then
-            Template = "u_vegplot"
+            template = "u_vegplot"
             Params(28) = .ID
         End If
         
-        .ID = SetRecord(Template, Params)
+        .ID = SetRecord(template, Params)
     End With
 
 Exit_Handler:

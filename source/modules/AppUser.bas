@@ -162,9 +162,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim Template As String
+    Dim template As String
     
-    Template = "i_login"
+    template = "i_login"
     
     Dim Params() As Variant
     
@@ -182,7 +182,7 @@ On Error GoTo Err_Handler
 '        End If
         
 '        .ID = SetRecord(template, params)
-        SetRecord Template, Params
+        SetRecord template, Params
     End With
 
 

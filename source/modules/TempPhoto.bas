@@ -281,9 +281,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim Template As String
+    Dim template As String
     
-    Template = "i_usys_temp_photo"
+    template = "i_usys_temp_photo"
     
     Dim Params(0 To 7) As Variant
     
@@ -297,11 +297,11 @@ On Error GoTo Err_Handler
         Params(6) = .PhotoType
               
         If IsUpdate Then
-            Template = "u_usys_temp_photo"
+            template = "u_usys_temp_photo"
             Params(7) = .ID
         End If
         
-        .ID = SetRecord(Template, Params)
+        .ID = SetRecord(template, Params)
     End With
 
     'set observer/recorder

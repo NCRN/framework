@@ -435,9 +435,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim Template As String
+    Dim template As String
     
-    Template = "i_photo"
+    template = "i_photo"
     
     Dim Params(0 To 19) As Variant
     
@@ -463,11 +463,11 @@ On Error GoTo Err_Handler
         Params(18) = .PhotoPath         'photo's directory location
               
         If IsUpdate Then
-            Template = "u_photo"
+            template = "u_photo"
             Params(19) = .ID
         End If
         
-        .ID = SetRecord(Template, Params)
+        .ID = SetRecord(template, Params)
     End With
 
     'set observer/recorder

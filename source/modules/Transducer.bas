@@ -288,9 +288,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim Template As String
+    Dim template As String
     
-    Template = "i_transducer"
+    template = "i_transducer"
     
     Dim Params(0 To 10) As Variant
 
@@ -310,11 +310,11 @@ On Error GoTo Err_Handler
         Params(12) = .EyeboltToScribeline
     
         If IsUpdate Then
-            Template = "u_transducer"
+            template = "u_transducer"
             Params(9) = .ID
         End If
 
-        .ID = SetRecord(Template, Params)
+        .ID = SetRecord(template, Params)
     End With
     
 '    'add a record for created by

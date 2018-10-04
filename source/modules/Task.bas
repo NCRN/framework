@@ -314,9 +314,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim Template As String
+    Dim template As String
     
-    Template = "i_task"
+    template = "i_task"
     
     Dim Params(0 To 14) As Variant
     
@@ -335,11 +335,11 @@ On Error GoTo Err_Handler
         'params 10-13 --> createdate, lastmodified
         
         If IsUpdate Then
-            Template = "u_task"
+            template = "u_task"
             Params(14) = .ID
         End If
         
-        .ID = SetRecord(Template, Params)
+        .ID = SetRecord(template, Params)
     End With
 
 Exit_Handler:

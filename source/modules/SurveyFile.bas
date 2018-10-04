@@ -268,9 +268,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
 
-    Dim Template As String
+    Dim template As String
     
-    Template = "i_surveyfile"
+    template = "i_surveyfile"
     
     Dim Params(0 To 6) As Variant
     
@@ -282,11 +282,11 @@ On Error GoTo Err_Handler
         Params(4) = .SurveySource
         
         If IsUpdate Then
-            Template = "u_surveyfile"
+            template = "u_surveyfile"
             Params(5) = .ID
         End If
         
-        .ID = SetRecord(Template, Params)
+        .ID = SetRecord(template, Params)
     End With
 
 Exit_Handler:
@@ -316,9 +316,9 @@ End Sub
 Public Sub SetPointData(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
 
-    Dim Template As String
+    Dim template As String
     
-    Template = "u_surveyfile_ptdata"
+    template = "u_surveyfile_ptdata"
     
     Dim Params(0 To 12) As Variant
     
@@ -338,7 +338,7 @@ On Error GoTo Err_Handler
         'always an update -> use ID
         Params(11) = .ID
         
-        .ID = SetRecord(Template, Params)
+        .ID = SetRecord(template, Params)
     End With
 
 Exit_Handler:

@@ -335,9 +335,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim Template As String
+    Dim template As String
     
-    Template = "i_unknown"
+    template = "i_unknown"
     
     Dim Params(0 To 26) As Variant
 
@@ -367,11 +367,11 @@ On Error GoTo Err_Handler
 '        Params(22) = .TransectPosition
         
         If IsUpdate Then
-            Template = "u_unknown"
+            template = "u_unknown"
             Params(25) = .ID
         End If
         
-        .ID = SetRecord(Template, Params)
+        .ID = SetRecord(template, Params)
     End With
 
 Exit_Handler:
@@ -404,9 +404,9 @@ End Sub
 Public Sub IdentifyUnknown(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim Template As String
+    Dim template As String
     
-    Template = "u_unknown_identify"
+    template = "u_unknown_identify"
     
     Dim Params(0 To 5) As Variant
 
@@ -417,7 +417,7 @@ On Error GoTo Err_Handler
         Params(3) = .IdentifiedDate
         Params(4) = .IdentifiedByID
                 
-        .ID = SetRecord(Template, Params)
+        .ID = SetRecord(template, Params)
     End With
 
 Exit_Handler:

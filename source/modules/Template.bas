@@ -245,14 +245,14 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
 
-    Dim Template As String
+    Dim template As String
     
-    Template = "i_template"
+    template = "i_template"
     
     Dim Params(0 To 12) As Variant
 
     With Me
-        Params(0) = Template
+        Params(0) = template
         Params(1) = .TemplateName
         Params(2) = .Context
         Params(3) = .TemplateSQL
@@ -267,11 +267,11 @@ On Error GoTo Err_Handler
                      IIf(.RetireDate = #12:00:00 AM#, Null, .RetireDate), Null)
     
         If IsUpdate Then
-            Template = "u_template"
+            template = "u_template"
             Params(12) = .ID
         End If
 
-        .ID = SetRecord(Template, Params)
+        .ID = SetRecord(template, Params)
     End With
     
     'after template is saved, refresh global Template dictionary

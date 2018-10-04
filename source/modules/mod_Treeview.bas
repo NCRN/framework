@@ -61,7 +61,7 @@ Public SelectedNode As MSComctlLib.Node
 '   BLC - 10/4/2017 - switched CurrentDb to CurrDb property to avoid
 '                     multiple open connections
 ' ---------------------------------
-Public Sub LoadTree(frm As Form, tvw As Treeview, Template As String, Params As Variant)
+Public Sub LoadTree(frm As Form, tvw As Treeview, template As String, Params As Variant)
 On Error GoTo Err_Handler
     
     'exit w/o values
@@ -85,7 +85,7 @@ On Error GoTo Err_Handler
         With qdf
         
             'check if record exists in site
-            .SQL = GetTemplate(Template)
+            .SQL = GetTemplate(template)
             
             '-------------------
             ' set SQL parameters --> .Parameters("") = params()
@@ -96,7 +96,7 @@ On Error GoTo Err_Handler
             '   param(0) --> reserved for record action RefTable (ReferenceType)
             '   last param(x) --> used as record ID for updates
             '-------------------------------------------------------------------------
-            Select Case Template
+            Select Case template
             
         '-----------------------
         '  SELECT
@@ -216,7 +216,7 @@ On Error GoTo Err_Handler
                                 nodeX.Tag = "M|C|" & strKey & "|" & strDisplayName & "|" & strPhotoType 'oTree.SelectedItem.key 'strDisplayName
                                 
                                 'adjust node font weight/color for incomplete data
-                                If Template = "s_usys_temp_photo_data" Then
+                                If template = "s_usys_temp_photo_data" Then
                                     nodeX.forecolor = lngRed
                                     nodeX.Bold = True
                                 End If

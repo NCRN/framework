@@ -178,9 +178,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim Template As String
+    Dim template As String
     
-    Template = "i_waterway"
+    template = "i_waterway"
     
     Dim Params(0 To 5) As Variant
 
@@ -191,11 +191,11 @@ On Error GoTo Err_Handler
         Params(3) = .segment
         
         If IsUpdate Then
-            Template = "u_waterway"
+            template = "u_waterway"
             Params(4) = .ID
         End If
         
-        .ID = SetRecord(Template, Params)
+        .ID = SetRecord(template, Params)
     End With
 
 Exit_Handler:

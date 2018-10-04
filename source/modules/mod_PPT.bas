@@ -55,7 +55,7 @@ On Error GoTo Err_Handler
     
     'Look for existing instance
     'On Error Resume Next
-    Set newPowerPoint = GetObject(, "PowerPoint.Application")
+'    Set newPowerPoint = GetObject(, "PowerPoint.Application")
     On Error GoTo 0
     
     'Let's create a new PowerPoint
