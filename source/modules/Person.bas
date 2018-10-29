@@ -329,9 +329,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim template As String
+    Dim Template As String
     
-    template = "i_contact" '"i_contact_new"
+    Template = "i_contact" '"i_contact_new"
     
     Dim Params() As Variant
     
@@ -354,18 +354,18 @@ On Error GoTo Err_Handler
         Params(11) = IIf(.IsNPS > 0, .IsNPS, 0)
         
         If IsUpdate Then
-            template = "u_contact"
+            Template = "u_contact"
             Params(12) = .ID
         End If
         
-        .ID = SetRecord(template, Params)
+        .ID = SetRecord(Template, Params)
     End With
     
     'skip access if not set (non-users)
     If Not (Me.AccessLevel > 0) Then GoTo Exit_Handler
 
     'set the person's role (update if contact template was update)
-    template = IIf(Left(template, 1) = "u", "u_contact_access", "i_contact_access")
+    Template = IIf(Left(Template, 1) = "u", "u_contact_access", "i_contact_access")
     
     'dimension for role
     ReDim Params(0 To 3) As Variant
@@ -376,7 +376,7 @@ On Error GoTo Err_Handler
         Params(2) = .AccessLevel
         
         'ID not generated here
-        SetRecord template, Params
+        SetRecord Template, Params
     End With
     
 

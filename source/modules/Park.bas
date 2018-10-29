@@ -190,9 +190,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
 
-    Dim template As String
+    Dim Template As String
     
-    template = "i_park"
+    Template = "i_park"
     
     Dim Params(0 To 6) As Variant
     
@@ -204,11 +204,11 @@ On Error GoTo Err_Handler
         Params(4) = .IsActiveForProtocol
         
         If IsUpdate Then
-            template = "u_park"
+            Template = "u_park"
             Params(5) = .ID
         End If
         
-        .ID = SetRecord(template, Params)
+        .ID = SetRecord(Template, Params)
     End With
 
 Exit_Handler:

@@ -446,9 +446,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim template As String
+    Dim Template As String
     
-    template = "i_vegwalk_species"
+    Template = "i_vegwalk_species"
     
     Dim Params(0 To 5) As Variant
     
@@ -459,11 +459,11 @@ On Error GoTo Err_Handler
         Params(3) = .IsSeedling
         
         If IsUpdate Then
-            template = "u_vegwalk_species"
+            Template = "u_vegwalk_species"
             Params(4) = .ID
         End If
         
-        .ID = SetRecord(template, Params)
+        .ID = SetRecord(Template, Params)
     End With
     
 '    'add a record for created by

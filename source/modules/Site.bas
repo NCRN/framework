@@ -315,9 +315,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim template As String
+    Dim Template As String
     
-    template = "i_site"
+    Template = "i_site"
     
     Dim Params(0 To 9) As Variant
     
@@ -333,11 +333,11 @@ On Error GoTo Err_Handler
         Params(7) = .Description
         
         If IsUpdate Then
-            template = "u_site"
+            Template = "u_site"
             Params(8) = .ID
         End If
         
-        .ID = SetRecord(template, Params)
+        .ID = SetRecord(Template, Params)
     End With
 
 '    SetObserverRecorder Me, "Site"

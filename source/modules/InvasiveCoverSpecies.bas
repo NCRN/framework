@@ -550,9 +550,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim template As String
+    Dim Template As String
     
-    template = "i_invasive_cover_species"
+    Template = "i_invasive_cover_species"
     
     Dim Params(0 To 7) As Variant
 
@@ -565,11 +565,11 @@ On Error GoTo Err_Handler
         Params(5) = .Position
                 
         If IsUpdate Then
-            template = "u_invasive_cover_species"
+            Template = "u_invasive_cover_species"
 '            Params(6) = .ID
         End If
         
-        .ID = SetRecord(template, Params)
+        .ID = SetRecord(Template, Params)
     End With
 
 Exit_Handler:
@@ -603,9 +603,9 @@ End Sub
 Public Sub AddSpeciesCover()
 On Error GoTo Err_Handler
     
-    Dim template As String
+    Dim Template As String
     
-    template = "i_speciescover"
+    Template = "i_speciescover"
     
     Dim Params(0 To 5) As Variant
 
@@ -616,7 +616,7 @@ On Error GoTo Err_Handler
         Params(3) = .IsDead
         Params(4) = .PctCover
         
-        .ID = SetRecord(template, Params)
+        .ID = SetRecord(Template, Params)
         
         'retrieve the ID (requires MAX() vs. SELECT @@Identity
         'since each CurrentDb is a new db object & won't see the last insert
@@ -652,9 +652,9 @@ End Sub
 Public Sub UpdateSpeciesCover()
 On Error GoTo Err_Handler
     
-    Dim template As String
+    Dim Template As String
     
-    template = "u_speciescover"
+    Template = "u_speciescover"
     
     Dim Params(0 To 6) As Variant
 
@@ -666,7 +666,7 @@ On Error GoTo Err_Handler
         Params(4) = .IsDead
         Params(5) = .PctCover
                 
-        .ID = SetRecord(template, Params)
+        .ID = SetRecord(Template, Params)
     End With
 
 Exit_Handler:
@@ -700,9 +700,9 @@ End Sub
 Public Sub DeleteSpeciesCover()
 On Error GoTo Err_Handler
     
-    Dim template As String
+    Dim Template As String
     
-    template = "d_speciescover"
+    Template = "d_speciescover"
     
     Dim Params(0 To 2) As Variant
 
@@ -713,7 +713,7 @@ On Error GoTo Err_Handler
 '        params(3) = .LUcode
 '        params(4) = .IsDead
                 
-        .ID = SetRecord(template, Params)
+        .ID = SetRecord(Template, Params)
         
         'retrieve the species cover ID for the last inserted record
         'cannot use @@Identity here since it requires using same CurrentDb object

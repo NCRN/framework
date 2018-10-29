@@ -282,7 +282,7 @@ End Sub
 ' Source/date:  Bonnie Campbell, January 2018
 ' Revisions:    BLC, 1/24/2018 - initial version
 ' ---------------------------------
-Public Function GetDictionary(template As String, keys As Variant, _
+Public Function GetDictionary(Template As String, keys As Variant, _
                                 dictname As String) As Scripting.Dictionary
 
     Dim db As DAO.Database
@@ -298,7 +298,7 @@ Public Function GetDictionary(template As String, keys As Variant, _
     End If
     
     Set db = CurrDb
-    Set rs = GetRecords(template)
+    Set rs = GetRecords(Template)
     
     'handle no records
     If rs.EOF Then
@@ -953,25 +953,25 @@ On Error GoTo Err_Handler
 '    DoCmd.RunSQL (strSQL)
 '    DoCmd.SetWarnings True
     
-    Dim template As String
+    Dim Template As String
     
     Select Case Context
         Case "Contact"
-            template = "u_contact_isactive_flag"
+            Template = "u_contact_isactive_flag"
         Case "Site"
-            template = "u_site_isactive_flag"
+            Template = "u_site_isactive_flag"
         Case "ModWentworthScale"
-            template = "u_mod_wentworth_retireyear"
+            Template = "u_mod_wentworth_retireyear"
             
     End Select
     
     Dim Params(0 To 3) As Variant
     
-    Params(0) = template
+    Params(0) = Template
     Params(1) = ID
-    Params(2) = IIf(InStr(template, "wentworth") > 0, Year(Date), IsActive)
+    Params(2) = IIf(InStr(Template, "wentworth") > 0, Year(Date), IsActive)
         
-    SetRecord template, Params
+    SetRecord Template, Params
     
 Exit_Handler:
     Exit Sub
@@ -1003,13 +1003,13 @@ End Sub
 Public Sub ToggleSensitive(Context As String, ID As Long, Sensitive As Byte)
 On Error GoTo Err_Handler
     
-    Dim template As String
+    Dim Template As String
     
-    template = IIf(Sensitive = 1, "i_", "d_")
+    Template = IIf(Sensitive = 1, "i_", "d_")
     
-    template = LCase(template & "sensitive_" & Context)
+    Template = LCase(Template & "sensitive_" & Context)
     
-    If Right(template, 1) <> "s" Then template = template & "s"
+    If Right(Template, 1) <> "s" Then Template = Template & "s"
     
 '    Select Case Context
 '        Case "Locations"
@@ -1029,11 +1029,11 @@ On Error GoTo Err_Handler
     
     Dim Params(0 To 3) As Variant
     
-    Params(0) = template
+    Params(0) = Template
     Params(1) = ID
     Params(2) = Sensitive
         
-    SetRecord template, Params
+    SetRecord Template, Params
     
 Exit_Handler:
     Exit Sub
@@ -1188,7 +1188,7 @@ End Sub
 '   BLC - 1/10/2018  - added s_comments, s_tasks
 '   BLC - 1/24/2018  - added s_photo_year_by_site
 ' ---------------------------------
-Public Function GetRecords(template As String, _
+Public Function GetRecords(Template As String, _
                             Optional Params As Variant) As DAO.Recordset
 On Error GoTo Err_Handler
     
@@ -1204,9 +1204,9 @@ On Error GoTo Err_Handler
         With qdf
         
             'check if record exists in site
-            .SQL = GetTemplate(template)
+            .SQL = GetTemplate(Template)
         
-            Select Case template
+            Select Case Template
                                         
         '-----------------------
         '  QC
@@ -1672,7 +1672,7 @@ End Function
 '   BLC - 1/16/2018 - add i_photo_event case
 '   BLC - 1/17/2018 - updated i_photo_event, i_photo, u_photo cases
 ' ---------------------------------
-Public Function SetRecord(template As String, Params As Variant) As Long
+Public Function SetRecord(Template As String, Params As Variant) As Long
 On Error GoTo Err_Handler
     
     Dim db As DAO.Database
@@ -1697,7 +1697,7 @@ On Error GoTo Err_Handler
         With qdf
         
             'check if record exists in site
-            .SQL = GetTemplate(template)
+            .SQL = GetTemplate(Template)
             
             '-------------------
             ' set SQL parameters --> .Parameters("") = params()
@@ -1708,7 +1708,7 @@ On Error GoTo Err_Handler
             '   param(0) --> reserved for record action RefTable (ReferenceType)
             '   last param(x) --> used as record ID for updates
             '-------------------------------------------------------------------------
-            Select Case template
+            Select Case Template
             
         '-----------------------
         '  INSERTS
@@ -2550,7 +2550,7 @@ Err_Handler:
             DoCmd.OpenForm "MsgOverlay", acNormal, , , , acDialog, _
                         "msg" & PARAM_SEPARATOR & "Please check your " & _
                         "values && retry if necessary. " & _
-                        vbCrLf & "[" & template & " - SetRecord]" & _
+                        vbCrLf & "[" & Template & " - SetRecord]" & _
                         "|Type" & PARAM_SEPARATOR & "caution" & _
                         "|Title" & PARAM_SEPARATOR & "Duplicate Record!"
       Case Else
@@ -3271,7 +3271,7 @@ On Error GoTo Err_Handler
             '-------------------
             Case "Template"
                 'Dim tpl As New Template
-                Dim tpl As template
+                Dim tpl As Template
                 
                 With tpl
                     .IsSupported = 1

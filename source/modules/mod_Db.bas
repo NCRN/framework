@@ -2185,14 +2185,14 @@ On Error GoTo Err_Handler
     Dim aryParams() As Variant
     Dim ary() As String, ary2() As String
     Dim i As Integer
-    Dim template As String, swap As String, param As String
+    Dim Template As String, swap As String, param As String
 
 Debug.Print strTemplate
 
     'initialize AppTemplates if not populated
     If g_AppTemplates Is Nothing Then GetTemplates
 
-    template = g_AppTemplates(strTemplate).Item("Template")
+    Template = g_AppTemplates(strTemplate).Item("Template")
     
     If Len(Params) > 0 Then
     
@@ -2230,7 +2230,7 @@ Debug.Print strTemplate
                 param = SQLencode(ary2(1))
 'Debug.Print param
                 'swap out the placeholder in the Template
-                template = Replace(template, swap, ary2(1))
+                Template = Replace(Template, swap, ary2(1))
                 
             End If
             
@@ -2240,7 +2240,7 @@ Debug.Print strTemplate
     
 'Debug.Print Template
     
-    GetTemplate = template
+    GetTemplate = Template
     
 Exit_Handler:
     Exit Function

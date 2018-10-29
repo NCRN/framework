@@ -238,7 +238,7 @@ On Error GoTo Err_Handler
         For i = 1 To UBound(ary)
             Key = ary(i)
             If (ary(i) = "SQLstring") Then
-                Value = rst!template
+                Value = rst!Template
             Else
                 Value = rst.Fields(ary(i))
             End If

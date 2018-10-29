@@ -193,9 +193,9 @@ End Sub
 Public Sub UpdateStartDate()
 On Error GoTo Err_Handler
     
-    Dim template As String
+    Dim Template As String
     
-    template = "u_event_startdate"
+    Template = "u_event_startdate"
     
     Dim Params(0 To 2) As Variant
 
@@ -204,7 +204,7 @@ On Error GoTo Err_Handler
         Params(1) = .EventID
         Params(2) = .StartDate
                 
-        .ID = SetRecord(template, Params)
+        .ID = SetRecord(Template, Params)
     End With
 
 Exit_Handler:
@@ -234,9 +234,9 @@ End Sub
 Public Sub UpdateObserver()
 On Error GoTo Err_Handler
     
-    Dim template As String
+    Dim Template As String
     
-    template = "u_event_observer"
+    Template = "u_event_observer"
     
     Dim Params(0 To 2) As Variant
 
@@ -245,7 +245,7 @@ On Error GoTo Err_Handler
         Params(1) = .EventID
         Params(2) = .Observer
                 
-        .ID = SetRecord(template, Params)
+        .ID = SetRecord(Template, Params)
     End With
 
 Exit_Handler:
@@ -275,9 +275,9 @@ End Sub
 Public Sub UpdateComments()
 On Error GoTo Err_Handler
     
-    Dim template As String
+    Dim Template As String
     
-    template = "u_event_comments"
+    Template = "u_event_comments"
     
     Dim Params(0 To 2) As Variant
 
@@ -286,7 +286,7 @@ On Error GoTo Err_Handler
         Params(1) = .EventID
         Params(2) = .Comments
                 
-        .ID = SetRecord(template, Params)
+        .ID = SetRecord(Template, Params)
     End With
 
 Exit_Handler:
@@ -316,9 +316,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim template As String
+    Dim Template As String
     
-    template = "i_event_data"
+    Template = "i_event_data"
     
     Dim Params(0 To 5) As Variant
 
@@ -330,11 +330,11 @@ On Error GoTo Err_Handler
         Params(4) = .Comments
         
         If IsUpdate Then
-            template = "u_event_data"
+            Template = "u_event_data"
             Params(4) = .ID
         End If
         
-        .ID = SetRecord(template, Params)
+        .ID = SetRecord(Template, Params)
     End With
 
 Exit_Handler:

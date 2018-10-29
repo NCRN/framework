@@ -1113,10 +1113,10 @@ End Function
 ' Revisions:
 '   BLC - 9/27/2017 - initial version
 ' ---------------------------------
-Public Function NewTemplate() As template
+Public Function NewTemplate() As Template
 On Error GoTo Err_Handler
     
-    Set NewTemplate = New template
+    Set NewTemplate = New Template
 
 Exit_Handler:
     'cleanup

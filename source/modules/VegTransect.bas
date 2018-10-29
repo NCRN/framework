@@ -336,9 +336,9 @@ End Sub
 Public Sub SaveToDb(Optional IsUpdate As Boolean = False)
 On Error GoTo Err_Handler
     
-    Dim template As String
+    Dim Template As String
     
-    template = "i_vegtransect"
+    Template = "i_vegtransect"
     
     Dim Params(0 To 6) As Variant
 
@@ -350,11 +350,11 @@ On Error GoTo Err_Handler
         Params(4) = .SampleDate
         
         If IsUpdate Then
-            template = "u_vegtransect"
+            Template = "u_vegtransect"
             Params(5) = .ID
         End If
         
-        .ID = SetRecord(template, Params)
+        .ID = SetRecord(Template, Params)
     End With
     
     'SetObserverRecorder Me, "VegTransect"
@@ -466,10 +466,10 @@ End Function
 Public Sub AddQuadrats(Optional QuadratNum As Integer = 0)
 On Error GoTo Err_Handler
     
-    Dim template As String
+    Dim Template As String
     Dim i As Integer
     
-    template = "i_new_transect_quadrat"
+    Template = "i_new_transect_quadrat"
     
     Dim Params(0 To QUADRATS_PER_TRANSECT) As Variant
 
@@ -480,7 +480,7 @@ On Error GoTo Err_Handler
             Params(1) = .TransectQuadratID
             Params(2) = i                   'quadrat number
             
-            .ID = SetRecord(template, Params)
+            .ID = SetRecord(Template, Params)
         End With
     
         'exit
@@ -496,7 +496,7 @@ On Error GoTo Err_Handler
             Params(1) = .TransectQuadratID
             Params(2) = i                   'quadrat number
             
-            .ID = SetRecord(template, Params)
+            .ID = SetRecord(Template, Params)
         End With
         
         'SetObserverRecorder Me, "VegTransect"
@@ -536,7 +536,7 @@ End Sub
 Public Sub AddSurfaceMicrohabitats(Optional SfcMicrohabitat As Integer = 0)
 On Error GoTo Err_Handler
     
-    Dim template As String
+    Dim Template As String
     Dim arySurfaces As Variant
     Dim aryQuadrats As Variant
     Dim rs As DAO.Recordset
@@ -565,7 +565,7 @@ On Error GoTo Err_Handler
         aryQuadrats = 0
     End If
     
-    template = "i_new_transect_quadrat_sfccover"
+    Template = "i_new_transect_quadrat_sfccover"
     
     Dim Params(0 To QUADRATS_PER_TRANSECT) As Variant
 
@@ -580,7 +580,7 @@ On Error GoTo Err_Handler
                 Params(1) = QuadratID       'quadrat ID
                 Params(2) = sfc_id          'surface microhabitat ID
                 
-                .ID = SetRecord(template, Params)
+                .ID = SetRecord(Template, Params)
             End With
         
             'SetObserverRecorder Me, "VegTransect"
@@ -617,9 +617,9 @@ End Sub
 Public Sub UpdateObserver()
 On Error GoTo Err_Handler
     
-    Dim template As String
+    Dim Template As String
         
-    template = "u_transect_observer"
+    Template = "u_transect_observer"
     
     Dim Params(0 To 2) As Variant
 
@@ -628,7 +628,7 @@ On Error GoTo Err_Handler
         Params(1) = .Observer           'observer
         Params(2) = .TransectQuadratID  'string identifier
         
-        .ID = SetRecord(template, Params)
+        .ID = SetRecord(Template, Params)
                 
     End With
 
@@ -661,9 +661,9 @@ End Sub
 Public Sub UpdateStartTime()
 On Error GoTo Err_Handler
     
-    Dim template As String
+    Dim Template As String
         
-    template = "u_transect_start_time"
+    Template = "u_transect_start_time"
     
     Dim Params(0 To 2) As Variant
 
@@ -672,7 +672,7 @@ On Error GoTo Err_Handler
         Params(1) = .StartTime          'start time
         Params(2) = .TransectQuadratID  'string identifier
         
-        .ID = SetRecord(template, Params)
+        .ID = SetRecord(Template, Params)
     End With
 
     'SetObserverRecorder Me, "VegTransect"
@@ -705,9 +705,9 @@ End Sub
 Public Sub UpdateComments()
 On Error GoTo Err_Handler
     
-    Dim template As String
+    Dim Template As String
         
-    template = "u_transect_comments"
+    Template = "u_transect_comments"
     
     Dim Params(0 To 2) As Variant
 
@@ -716,7 +716,7 @@ On Error GoTo Err_Handler
         Params(1) = .Comments           'comments
         Params(2) = .TransectQuadratID  'string identifier
         
-        .ID = SetRecord(template, Params)
+        .ID = SetRecord(Template, Params)
                 
     End With
 
