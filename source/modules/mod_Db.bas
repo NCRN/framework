@@ -2639,6 +2639,68 @@ Err_Handler:
 End Sub
 
 ' ---------------------------------
+' SUB:          CreateCleanDb
+' Description:  Create new backend database
+'
+' Parameters:   dbPath - full path name of the new clean db (string)
+' Returns:      -
+' Throws:       -
+' References:
+'   EdB, May 26, 2007
+'   https://it.toolbox.com/question/any-easy-way-to-clear-an-access-database-052507
+' Source/date:  NCPN, unknown
+' Adapted:      Bonnie Campbell,  November 25, 2018
+' Revisions:
+'               BLC, 11/25/2018 - initial version
+' ---------------------------------
+Public Sub CreateCleanDb(Optional dbPath As String = "")
+On Error GoTo Err_Handler:
+
+    'set db path & name
+    dbPath = IIf(Len(dbPath) = 0, "C:\Projects\TEST_DATA\CleanDb.accdb", dbPath)
+    
+    Dim db As DAO.Database
+    Dim rs As DAO.Recordset
+    
+    Set rs = GetRecords("s_clean_db_tables")
+    rs.MoveLast
+    rs.MoveFirst
+    
+    'iterate through records for tables to copy over
+    Do While Not rs.BOF And rs.EOF
+    
+        'check if db exists
+        If FileExists(dbPath) = False Then
+            Application.NewCurrentDatabase dbPath
+        End If
+    
+        If Not rs("IsExcluded") = 1 Then
+            'copy table
+            DoCmd.TransferDatabase acExport, "Microsoft Access", dbPath, acTable, _
+                rs("TableName"), rs("TableName"), True
+            'change table to local
+'            Set db = OpenDatabase(dbPath)
+'            DoCmd.SelectObject acTable, rs("TableName"), True
+'            DoCmd.RunCommand acCmdConvertLinkedTableToLocal
+        End If
+        
+        If Not rs.EOF Then rs.MoveNext
+    Loop
+
+Exit_Handler:
+    db.Close
+    Exit Sub
+
+Err_Handler:
+    Select Case Err.Number
+      Case Else
+        MsgBox "Error #" & Err.Number & ": " & Err.Description, vbCritical, _
+            "Error encountered (#" & Err.Number & " - CreateCleanDb[mod_Db])"
+    End Select
+    Resume Exit_Handler
+End Sub
+
+' ---------------------------------
 ' SUB:          HandleDependentQueries
 ' Description:  Runs or closes Template dependent queries
 ' Assumptions:  Recursion is supported -> if a query is run & has dependencies this

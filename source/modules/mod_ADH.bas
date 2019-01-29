@@ -118,7 +118,7 @@ Function adhCommonFileOpenSave( _
     On Error GoTo Err_Handler
 
     Dim ofn As tagOPENFILENAME
-    Dim strFilename As String
+    Dim strFileName As String
     Dim strFileTitle As String
     Dim fResult As Boolean
 
@@ -132,7 +132,7 @@ Function adhCommonFileOpenSave( _
     If IsMissing(OpenFile) Then OpenFile = True
 
     ' Allocate string space for the returned string.
-    strFilename = Left(FileName & String(256, 0), 256)
+    strFileName = Left(FileName & String(256, 0), 256)
     strFileTitle = String(256, 0)
 
     ' Set up the data structure before you call the function
@@ -141,8 +141,8 @@ Function adhCommonFileOpenSave( _
         .hwndOwner = Application.hWndAccessApp
         .strFilter = filter
         .nFilterIndex = FilterIndex
-        .strFile = strFilename
-        .nMaxFile = Len(strFilename)
+        .strFile = strFileName
+        .nMaxFile = Len(strFileName)
         .strFileTitle = strFileTitle
         .nMaxFileTitle = Len(strFileTitle)
         .strTitle = DialogTitle

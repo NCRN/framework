@@ -4,7 +4,7 @@ Option Explicit
 ' =================================
 ' MODULE:       mod_App_Data
 ' Level:        Application module
-' Version:      1.61
+' Version:      1.63
 ' Description:  data functions & procedures specific to this application
 '
 ' Source/date:  Bonnie Campbell, 2/9/2015
@@ -100,6 +100,8 @@ Option Explicit
 '               BLC, 1/16/2018  - 1.59 - add i_event_photo case (SetRecord), update i_photo (UpsertRecord) case
 '               BLC, 1/17/2018  - 1.60 - updated i_photo_event, i_photo, u_photo cases
 '               BLC, 1/24/2018  - 1.61 - added s_photo_year_by_site (GetRecords)
+'               BLC, 11/26/2018 - 1.62 - added s_clean_db_tables (GetRecords)
+'               BLC, 1/23/2019  - 1.63 - added forest veg queries (GetRecords)
 ' =================================
 
 ' =================================
@@ -1187,6 +1189,8 @@ End Sub
 '   BLC - 12/13/2017 - add s_access_lvl
 '   BLC - 1/10/2018  - added s_comments, s_tasks
 '   BLC - 1/24/2018  - added s_photo_year_by_site
+'   BLC - 11/26/2018 - added s_clean_db_tables
+'   BLC - 1/23/2019 - added forest veg selects
 ' ---------------------------------
 Public Function GetRecords(Template As String, _
                             Optional Params As Variant) As DAO.Recordset
@@ -1222,6 +1226,12 @@ On Error GoTo Err_Handler
         '-----------------------
         '  SELECTS
         '-----------------------
+        
+            '-------------------
+            ' --- GENERIC    ---
+            '-------------------
+                Case "s_clean_db_tables"
+                    '-- required parameters --
         
             '-------------------
             ' --- BIG RIVERS ---
@@ -1585,6 +1595,54 @@ On Error GoTo Err_Handler
                     '-- required parameters --
                    .Parameters("parkID") = TempVars("ParkID")
                 
+            '-------------------
+            ' --- FOREST VEG ---
+            '-------------------
+                Case "s_annual_data_export"
+                    '-- required parameters --
+                    ' N/A
+                
+                ' generic exports
+                Case "s_export_all_plots", _
+                    "s_export_all_events", _
+                    "s_export_all_trees", _
+                    "s_export_all_saplings", _
+                    "s_export_all_stems", _
+                    "s_export_all_seedlings", _
+                    "s_export_all_shrubs", _
+                    "s_export_all_shrub_seedlings", _
+                    "s_export_all_conditions", _
+                    "s_export_all_foliage_conditions", _
+                    "s_export_all_vines", _
+                    "s_export_all_tree_vines", _
+                    "s_export_all_herbaceous", _
+                    "s_export_all_quadrat_conditions", _
+                    "s_export_all_plot_floor_conditions", _
+                    "s_export_all_cwd", _
+                    "s_export_all_tag_status_by_cycle_x"
+                    '-- required parameters --
+                    ' N/A
+                
+                Case "s_export_all_plots_by_year", _
+                    "s_export_all_events_by_year", _
+                    "s_export_all_trees_by_year", _
+                    "s_export_all_saplings_by_year", _
+                    "s_export_all_stems_by_year", _
+                    "s_export_all_seedlings_by_year", _
+                    "s_export_all_shrubs_by_year", _
+                    "s_export_all_shrub_seedlings_by_year", _
+                    "s_export_all_conditions_by_year", _
+                    "s_export_all_foliage_conditions_by_year", _
+                    "s_export_all_vines_by_year", _
+                    "s_export_all_trees_by_year", _
+                    "s_export_all_herbaceous_by_year", _
+                    "s_export_all_quadrat_conditions_by_year", _
+                    "s_export_all_plot_floor_conditions_by_year", _
+                    "s_export_all_cwd_by_year", _
+                    "s_export_all_tag_status_by_cycle_x_by_year"
+                    '-- required parameters --
+                    .Parameters("yr") = TempVars("ExportYear")
+
                 Case Else
                     'handle other non-parameterized queries
                     
